@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Repository
 public class PersonagemRepository {
@@ -26,16 +27,10 @@ public class PersonagemRepository {
 
     public List<Personagem> getPerName(String name) {
         List<Personagem> db = getDb();
-        List<Personagem> personagens = new ArrayList<>();
 
-        for (Personagem personagem : db) {
-            if (personagem.getName().toLowerCase(Locale.ROOT).contains(name)) {
-                personagens.add(personagem);
-            }
-        }
+        List<Personagem> personagens = db.stream().filter(personagem -> personagem.getName().toLowerCase(Locale.ROOT).contains(name)).collect(Collectors.toList());
 
         return personagens;
-
     }
 
     public List<Personagem> getDb() {
